@@ -1,6 +1,6 @@
 const pool = require('../models/db');
 
-// Get all categories with their items (using JSON aggregation)
+//db with json
 exports.getInventory = async (req, res) => {
   try {
     const query = `
@@ -20,7 +20,7 @@ exports.getInventory = async (req, res) => {
   }
 };
 
-// Create a new category (only requires a name)
+// create new cat
 exports.createCategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -31,7 +31,7 @@ exports.createCategory = async (req, res) => {
   }
 };
 
-// Create a new item (only requires a name, quantity, and category_id)
+//create new item in cat
 exports.createItem = async (req, res) => {
   try {
     const { name, quantity, category_id } = req.body;
@@ -45,7 +45,7 @@ exports.createItem = async (req, res) => {
   }
 };
 
-// Remove a specified quantity from an item (or delete if zero or below)
+//remove or delete
 exports.removeItemQuantity = async (req, res) => {
   try {
     const { itemId, quantityToRemove } = req.body;
@@ -68,8 +68,7 @@ exports.removeItemQuantity = async (req, res) => {
   } catch (error) {
     res.status(500).send(error.message);
   }
-};
-
+};//update qty
 exports.addItemQuantity = async (req, res) => {
   try {
     const { itemId, quantityToAdd } = req.body;
