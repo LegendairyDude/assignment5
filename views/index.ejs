@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Grocery Inventory</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<!-- TODO: Make this look niucer -->
+
+<body>
+    <h1>Grocery Store Inventory Management</h1>
+
+    <h2>Inventory</h2>
+    <% if (categories.length===0) { %>
+        <p>No categories available. Add one below!</p>
+        <% } else { %>
+            <% categories.forEach(category=> { %>
+                <div class="category">
+                    <h3>
+                        <%= category.name %>
+                    </h3>
+                    <% if (category.items && category.items.length> 0) { %>
+                        <ul>
+                            <% category.items.forEach(item=> { %>
+                                <li>
+                                    <strong>
+                                        <%= item.name %>
+                                    </strong> — Qty: <%= item.quantity %>
+                                        <!-- Form to remove a quantity from this item -->
+                                        <form action="/item/remove" method="POST" style="display:inline-block;">
+                                            <input type="hidden" name="itemId" value="<%= item.id %>">
+                                            <input type="number" name="quantityToRemove" placeholder="Qty to remove"
+                                                min="1" required style="width: 100px;">
+                                            <button type="submit">Remove Qty</button>
+                                        </form>
+                                </li>
+                                <% }); %>
+                        </ul>
+                        <% } else { %>
+                            <p>No items in this category.</p>
+                            <% } %>
+                </div>
+                <% }); %>
+                    <% } %>
+
+                        <hr>
+
+                        <h3>Add New Category</h3>
+                        <form action="/category" method="POST">
+                            <input type="text" name="name" placeholder="Category Name" required>
+                            <button type="submit">Add Category</button>
+                        </form>
+
+                        <hr>
+
+                        <h3>Add New Item</h3>
+                        <form action="/item" method="POST">
+                            <input type="text" name="name" placeholder="Item Name" required>
+                            <input type="number" name="quantity" placeholder="Quantity" required>
+                            <!-- Dropdown to select category from available categories -->
+                            <select name="category_id" required>
+                                <option value="">Select Category</option>
+                                <% categories.forEach(category=> { %>
+                                    <option value="<%= category.id %>">
+                                        <%= category.name %>
+                                    </option>
+                                    <% }); %>
+                            </select>
+                            <button type="submit">Add Item</button>
+                        </form>
+</body>
+
+</html>
